@@ -38,6 +38,21 @@ const FALLBACK_OCTOCATS: Octocat[] = [
   { name: 'Justicetocat', image: 'https://octodex.github.com/images/justicertocat.jpg' },
   { name: 'Collabocats', image: 'https://octodex.github.com/images/collabocats.jpg' },
   { name: 'Okal-Eltocat', image: 'https://octodex.github.com/images/okal-eltocat.jpg' },
+  { name: 'Nyantocat', image: 'https://octodex.github.com/images/nyantocat.gif' },
+  { name: 'Codercat', image: 'https://octodex.github.com/images/codercat.jpg' },
+  { name: 'Kimonotocat', image: 'https://octodex.github.com/images/kimonotocat.png' },
+  { name: 'Snowtocat', image: 'https://octodex.github.com/images/snowtocat.png' },
+  { name: 'Thirty', image: 'https://octodex.github.com/images/thirty_percent_cooler_octodex.png' },
+  { name: 'Droctocat', image: 'https://octodex.github.com/images/droctocat.png' },
+  { name: 'Plumber', image: 'https://octodex.github.com/images/plumber.jpg' },
+  { name: 'Vinyltocat', image: 'https://octodex.github.com/images/vinyltocat.png' },
+  { name: 'Electrocat', image: 'https://octodex.github.com/images/electrocat.png' },
+  { name: 'Defunktocat', image: 'https://octodex.github.com/images/defunktocat.png' },
+  { name: 'Labtocat', image: 'https://octodex.github.com/images/labtocat.png' },
+  { name: 'Surftocat', image: 'https://octodex.github.com/images/surftocat.png' },
+  { name: 'Welcometocat', image: 'https://octodex.github.com/images/welcometocat.png' },
+  { name: 'Cherryontop', image: 'https://octodex.github.com/images/cherryontop-o-cat.png' },
+  { name: 'Octonaut', image: 'https://octodex.github.com/images/octonaut.jpg' },
 ]
 
 export function OctocatTicker() {
