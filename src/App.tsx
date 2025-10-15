@@ -23,7 +23,12 @@ function App() {
     <div className="relative flex min-h-screen flex-col bg-background">
       {position === 'top' && (
         <div className="w-full">
-          <OctocatTicker height={height} padding={padding} speed={speed} />
+          <OctocatTicker 
+            height={height} 
+            padding={padding} 
+            speed={speed}
+            onSpeedChange={setSpeed}
+          />
         </div>
       )}
 
@@ -35,7 +40,12 @@ function App() {
               <ResizableHandle withHandle />
               <ResizablePanel defaultSize={80} minSize={30}>
                 <div className="flex h-full items-center justify-center p-4">
-                  <OctocatTicker height={height} padding={padding} speed={speed} />
+                  <OctocatTicker 
+                    height={height} 
+                    padding={padding} 
+                    speed={speed}
+                    onSpeedChange={setSpeed}
+                  />
                 </div>
               </ResizablePanel>
               <ResizableHandle withHandle />
@@ -56,7 +66,12 @@ function App() {
 
       {position === 'bottom' && (
         <div className="w-full">
-          <OctocatTicker height={height} padding={padding} speed={speed} />
+          <OctocatTicker 
+            height={height} 
+            padding={padding} 
+            speed={speed}
+            onSpeedChange={setSpeed}
+          />
         </div>
       )}
 
@@ -145,15 +160,21 @@ function App() {
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between">
                 <label className="text-xs font-medium text-foreground">Speed</label>
-                <span className="text-xs text-muted-foreground">{speed}s</span>
+                <span className="text-xs text-muted-foreground">
+                  {speed > 0 ? `${speed}s →` : speed < 0 ? `${Math.abs(speed)}s ←` : 'Paused'}
+                </span>
               </div>
               <Slider
                 value={[speed]}
                 onValueChange={(value) => setSpeed(value[0])}
-                min={10}
+                min={-120}
                 max={120}
                 step={5}
               />
+              <div className="flex justify-between text-xs text-muted-foreground">
+                <span>← Reverse</span>
+                <span>Forward →</span>
+              </div>
             </div>
           </div>
         </Card>

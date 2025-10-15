@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Card } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Reorder } from 'framer-motion'
@@ -13,6 +13,7 @@ interface OctocatTickerProps {
   height?: number
   padding?: number
   speed?: number
+  onSpeedChange?: (speed: number) => void
 }
 
 const FALLBACK_OCTOCATS: Octocat[] = [
@@ -64,17 +65,55 @@ const FALLBACK_OCTOCATS: Octocat[] = [
   { id: '46', name: 'Filmtocat', image: 'https://octodex.github.com/images/filmtocat.png' },
 ]
 
-export function OctocatTicker({ height = 64, padding, speed = 60 }: OctocatTickerProps) {
+export function OctocatTicker({ height = 64, padding, speed = 60, onSpeedChange }: OctocatTickerProps) {
   const [octocats, setOctocats] = useState<Octocat[]>([])
   const [loading, setLoading] = useState(true)
+  const [localSpeed, setLocalSpeed] = useState(speed)
+  const touchStartX = useRef<number | null>(null)
+  const touchStartSpeed = useRef<number>(speed)
+  const leftPaddingRef = useRef<HTMLDivElement>(null)
+  const rightPaddingRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setOctocats(FALLBACK_OCTOCATS)
     setLoading(false)
   }, [])
 
+  useEffect(() => {
+    setLocalSpeed(speed)
+  }, [speed])
+
   const displayOctocats = [...octocats, ...octocats]
   const paddingY = padding !== undefined ? padding : Math.max(12, height * 0.1875)
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX
+    touchStartSpeed.current = localSpeed
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return
+
+    const deltaX = e.touches[0].clientX - touchStartX.current
+    const speedChange = deltaX / 5
+    let newSpeed = touchStartSpeed.current - speedChange
+
+    if (newSpeed < 0) {
+      newSpeed = Math.max(newSpeed, -120)
+    } else {
+      newSpeed = Math.max(newSpeed, 10)
+      newSpeed = Math.min(newSpeed, 120)
+    }
+
+    setLocalSpeed(newSpeed)
+  }
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current !== null) {
+      onSpeedChange?.(localSpeed)
+      touchStartX.current = null
+    }
+  }
 
   if (loading) {
     return (
@@ -91,8 +130,20 @@ export function OctocatTicker({ height = 64, padding, speed = 60 }: OctocatTicke
   return (
     <Card className="w-full overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm">
       <div className="relative flex items-center overflow-hidden" style={{ paddingTop: paddingY, paddingBottom: paddingY }}>
-        <div className="absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-card to-transparent pointer-events-none" />
-        <div className="absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-card to-transparent pointer-events-none" />
+        <div 
+          ref={leftPaddingRef}
+          className="absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-card to-transparent cursor-ew-resize"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        />
+        <div 
+          ref={rightPaddingRef}
+          className="absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-card to-transparent cursor-ew-resize"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        />
         
         <div className="flex gap-4 px-4">
           <Reorder.Group
@@ -102,7 +153,9 @@ export function OctocatTicker({ height = 64, padding, speed = 60 }: OctocatTicke
             onReorder={setOctocats}
             className="flex shrink-0 gap-4"
             style={{
-              animation: `scroll-left ${speed}s linear infinite`
+              animation: localSpeed >= 0 
+                ? `scroll-left ${Math.abs(localSpeed)}s linear infinite`
+                : `scroll-right ${Math.abs(localSpeed)}s linear infinite`
             }}
           >
             {octocats.map((octocat) => (
@@ -128,7 +181,9 @@ export function OctocatTicker({ height = 64, padding, speed = 60 }: OctocatTicke
           <div 
             className="flex shrink-0 gap-4"
             style={{
-              animation: `scroll-left ${speed}s linear infinite`
+              animation: localSpeed >= 0 
+                ? `scroll-left ${Math.abs(localSpeed)}s linear infinite`
+                : `scroll-right ${Math.abs(localSpeed)}s linear infinite`
             }}
             aria-hidden="true"
           >

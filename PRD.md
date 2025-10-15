@@ -33,6 +33,13 @@ An endlessly scrolling ticker that displays GitHub's Octocats from the Octodex i
 - **Progression**: User hovers over Octocat → Cursor changes to grab → User drags → Octocat moves → Release updates order → Animation continues
 - **Success criteria**: Smooth drag interaction that doesn't break scrolling animation; order persists during scroll
 
+### Swipe Gesture Speed and Direction Control
+- **Functionality**: Users can swipe left or right on the padding areas (gradient edges) to control scroll speed and direction
+- **Purpose**: Provides intuitive touch-based control to speed up, slow down, reverse, or pause the ticker
+- **Trigger**: User touches and swipes on the left or right padding gradient areas
+- **Progression**: User touches padding → Swipes left/right → Speed adjusts in real-time → Direction can reverse (negative speed) → Release commits the new speed
+- **Success criteria**: Smooth, responsive speed changes; ability to reverse direction; visual cursor change on padding areas
+
 ### Flexible Positioning
 - **Functionality**: Ticker is compact and can be positioned anywhere on screen
 - **Purpose**: Allows placement at top, middle, or bottom without layout disruption
@@ -70,15 +77,15 @@ Clean, modern sans-serif fonts that feel friendly and approachable, matching Git
   - Captions: Inter Regular/12px/relaxed spacing
 
 ## Animations
-The animation should be the star of this component - smooth, continuous, and hypnotic without being distracting. Drag interactions should feel natural and responsive.
+The animation should be the star of this component - smooth, continuous, and hypnotic without being distracting. Drag interactions should feel natural and responsive. Swipe gestures provide intuitive real-time control.
 
-- **Purposeful Meaning**: The constant left-scrolling motion creates a sense of endless discovery and playfulness, reflecting GitHub's diverse community. Drag interactions add a tactile quality that encourages exploration.
-- **Hierarchy of Movement**: Primary animation is the ticker scroll; secondary is the drag-and-drop interaction with scale feedback; everything else remains static to maintain focus on the Octocats
+- **Purposeful Meaning**: The constant scrolling motion creates a sense of endless discovery and playfulness, reflecting GitHub's diverse community. Drag interactions add a tactile quality that encourages exploration. Swipe gestures on padding areas provide intuitive speed and direction control.
+- **Hierarchy of Movement**: Primary animation is the ticker scroll (with bidirectional support); secondary is the drag-and-drop interaction with scale feedback; tertiary is real-time speed adjustment via swipe gestures; everything else remains static to maintain focus on the Octocats
 
 ## Component Selection
-- **Components**: Card (for ticker container with subtle border), Skeleton (for loading states), Button (for controls toggle), Slider (for adjusting parameters), Reorder.Group & Reorder.Item from Framer Motion (for drag-and-drop)
-- **Customizations**: Custom ticker animation using CSS keyframes; drag-and-drop reordering with Framer Motion Reorder components; custom image grid layout; floating controls panel
-- **States**: Loading (skeleton placeholders), Loaded (animated ticker with draggable items), Dragging (visual feedback during drag), Error (fallback images)
+- **Components**: Card (for ticker container with subtle border), Skeleton (for loading states), Button (for controls toggle), Slider (for adjusting parameters including negative values for reverse), Reorder.Group & Reorder.Item from Framer Motion (for drag-and-drop)
+- **Customizations**: Custom ticker animation using CSS keyframes (scroll-left and scroll-right); drag-and-drop reordering with Framer Motion Reorder components; custom image grid layout; floating controls panel; touch-responsive padding areas with cursor feedback
+- **States**: Loading (skeleton placeholders), Loaded (animated ticker with draggable items), Dragging (visual feedback during drag), Swiping (real-time speed adjustment), Error (fallback images)
 - **Icon Selection**: Sliders icon for controls button (Phosphor Icons)
 - **Spacing**: Tight horizontal gaps (gap-4) between Octocats; minimal vertical padding; generous padding in controls panel
-- **Mobile**: Reduce Octocat size slightly on mobile; maintain smooth animation; ensure ticker height stays compact; controls panel adapts to smaller screens
+- **Mobile**: Reduce Octocat size slightly on mobile; maintain smooth animation; ensure ticker height stays compact; controls panel adapts to smaller screens; swipe gestures work seamlessly on touch devices
