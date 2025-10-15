@@ -7,6 +7,10 @@ interface Octocat {
   image: string
 }
 
+interface OctocatTickerProps {
+  height?: number
+}
+
 const FALLBACK_OCTOCATS: Octocat[] = [
   { name: 'Original', image: 'https://octodex.github.com/images/original.png' },
   { name: 'Stormtroopocat', image: 'https://octodex.github.com/images/stormtroopocat.png' },
@@ -51,7 +55,7 @@ const FALLBACK_OCTOCATS: Octocat[] = [
   { name: 'Octonaut', image: 'https://octodex.github.com/images/octonaut.jpg' },
 ]
 
-export function OctocatTicker() {
+export function OctocatTicker({ height = 64 }: OctocatTickerProps) {
   const [octocats, setOctocats] = useState<Octocat[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -77,13 +81,14 @@ export function OctocatTicker() {
   }, [])
 
   const displayOctocats = [...octocats, ...octocats]
+  const paddingY = Math.max(12, height * 0.1875)
 
   if (loading) {
     return (
       <Card className="w-full overflow-hidden border-border/50">
-        <div className="flex gap-4 px-4 py-3">
+        <div className="flex gap-4 px-4" style={{ paddingTop: paddingY, paddingBottom: paddingY }}>
           {Array.from({ length: 8 }).map((_, i) => (
-            <Skeleton key={i} className="h-16 w-16 flex-shrink-0 rounded-lg" />
+            <Skeleton key={i} className="flex-shrink-0 rounded-lg" style={{ height, width: height }} />
           ))}
         </div>
       </Card>
@@ -92,7 +97,7 @@ export function OctocatTicker() {
 
   return (
     <Card className="w-full overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm">
-      <div className="relative flex items-center py-3 overflow-hidden">
+      <div className="relative flex items-center overflow-hidden" style={{ paddingTop: paddingY, paddingBottom: paddingY }}>
         <div className="absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-card to-transparent pointer-events-none" />
         <div className="absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-card to-transparent pointer-events-none" />
         
@@ -107,7 +112,8 @@ export function OctocatTicker() {
                 <img
                   src={octocat.image}
                   alt={octocat.name}
-                  className="h-16 w-16 rounded-lg object-cover transition-transform duration-300 hover:scale-110"
+                  className="rounded-lg object-cover transition-transform duration-300 hover:scale-110"
+                  style={{ height, width: height }}
                   loading="eager"
                 />
               </div>
