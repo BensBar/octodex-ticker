@@ -14,12 +14,13 @@ type Position = 'top' | 'middle' | 'bottom'
 function App() {
   const [position, setPosition] = useState<Position>('top')
   const [height, setHeight] = useState(64)
+  const [padding, setPadding] = useState(12)
 
   return (
     <div className="relative flex min-h-screen flex-col bg-background">
       {position === 'top' && (
         <div className="w-full">
-          <OctocatTicker height={height} />
+          <OctocatTicker height={height} padding={padding} />
         </div>
       )}
 
@@ -31,7 +32,7 @@ function App() {
               <ResizableHandle withHandle />
               <ResizablePanel defaultSize={80} minSize={30}>
                 <div className="flex h-full items-center justify-center p-4">
-                  <OctocatTicker height={height} />
+                  <OctocatTicker height={height} padding={padding} />
                 </div>
               </ResizablePanel>
               <ResizableHandle withHandle />
@@ -97,6 +98,23 @@ function App() {
               />
             </div>
 
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center justify-between">
+                <label className="text-sm font-medium text-foreground">
+                  Ticker padding:
+                </label>
+                <span className="text-sm text-muted-foreground">{padding}px</span>
+              </div>
+              <Slider
+                value={[padding]}
+                onValueChange={(value) => setPadding(value[0])}
+                min={0}
+                max={80}
+                step={4}
+                className="w-full"
+              />
+            </div>
+
             <div className="rounded-lg bg-muted/50 p-4">
               <h2 className="text-sm font-medium text-foreground">Features</h2>
               <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
@@ -105,6 +123,7 @@ function App() {
                 <li>• Compact design for flexible placement</li>
                 <li>• Hover to see Octocat names</li>
                 <li>• Adjustable height from small to large</li>
+                <li>• Adjustable padding for compact or spacious look</li>
                 {position === 'middle' && <li>• Drag handles to resize width</li>}
               </ul>
             </div>
@@ -114,7 +133,7 @@ function App() {
 
       {position === 'bottom' && (
         <div className="w-full">
-          <OctocatTicker height={height} />
+          <OctocatTicker height={height} padding={padding} />
         </div>
       )}
     </div>

@@ -9,6 +9,7 @@ interface Octocat {
 
 interface OctocatTickerProps {
   height?: number
+  padding?: number
 }
 
 const FALLBACK_OCTOCATS: Octocat[] = [
@@ -55,7 +56,7 @@ const FALLBACK_OCTOCATS: Octocat[] = [
   { name: 'Octonaut', image: 'https://octodex.github.com/images/octonaut.jpg' },
 ]
 
-export function OctocatTicker({ height = 64 }: OctocatTickerProps) {
+export function OctocatTicker({ height = 64, padding }: OctocatTickerProps) {
   const [octocats, setOctocats] = useState<Octocat[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -81,7 +82,7 @@ export function OctocatTicker({ height = 64 }: OctocatTickerProps) {
   }, [])
 
   const displayOctocats = [...octocats, ...octocats]
-  const paddingY = Math.max(12, height * 0.1875)
+  const paddingY = padding !== undefined ? padding : Math.max(12, height * 0.1875)
 
   if (loading) {
     return (
