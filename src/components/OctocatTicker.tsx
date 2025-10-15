@@ -10,7 +10,7 @@ interface Octocat {
 const FALLBACK_OCTOCATS: Octocat[] = [
   { name: 'Original', image: 'https://octodex.github.com/images/original.png' },
   { name: 'Stormtroopocat', image: 'https://octodex.github.com/images/stormtroopocat.png' },
-  { name: 'Hubot', image: 'https://octodex.github.com/images/hubot.png' },
+  { name: 'Hubot', image: 'https://octodex.github.com/images/hubot.jpg' },
   { name: 'Octocat', image: 'https://octodex.github.com/images/octocat-de-los-muertos.jpg' },
   { name: 'Daftpunktocat', image: 'https://octodex.github.com/images/daftpunktocat-guy.gif' },
   { name: 'Riddlocat', image: 'https://octodex.github.com/images/riddlocat.png' },
