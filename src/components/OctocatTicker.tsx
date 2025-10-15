@@ -22,7 +22,7 @@ const FALLBACK_OCTOCATS: Octocat[] = [
   { name: 'Gracehoppertocat', image: 'https://octodex.github.com/images/gracehoppertocat.jpg' },
   { name: 'Droidtocat', image: 'https://octodex.github.com/images/droidtocat.png' },
   { name: 'Spidertocat', image: 'https://octodex.github.com/images/spidertocat.png' },
-  { name: 'Rivetertocat', image: 'https://octodex.github.com/images/Rivetertocat.png' },
+  { name: 'Rivetertocat', image: 'https://octodex.github.com/images/rivetertocat.png' },
   { name: 'Steroidtocat', image: 'https://octodex.github.com/images/steroidtocat.png' },
   { name: 'Scubatocat', image: 'https://octodex.github.com/images/scubatocat.png' },
   { name: 'Shoptocat', image: 'https://octodex.github.com/images/shoptocat.png' },
