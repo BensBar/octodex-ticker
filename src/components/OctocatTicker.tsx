@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Card } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Reorder, useDragControls } from 'framer-motion'
+import { Reorder } from 'framer-motion'
 
 interface Octocat {
   name: string
@@ -94,29 +94,24 @@ export function OctocatTicker({ height = 64, padding, speed = 60 }: OctocatTicke
         <div className="absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-card to-transparent pointer-events-none" />
         <div className="absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-card to-transparent pointer-events-none" />
         
-        <Reorder.Group
-          as="div"
-          axis="x"
-          values={octocats}
-          onReorder={setOctocats}
-          className="flex gap-4"
-        >
-          <div 
-            className="flex shrink-0 gap-4 pr-4 pl-4"
+        <div className="flex gap-4 px-4">
+          <Reorder.Group
+            as="div"
+            axis="x"
+            values={octocats}
+            onReorder={setOctocats}
+            className="flex shrink-0 gap-4"
             style={{
               animation: `scroll-left ${speed}s linear infinite`
             }}
           >
-            {displayOctocats.map((octocat, index) => (
+            {octocats.map((octocat) => (
               <Reorder.Item
-                key={`${octocat.id}-${index}`}
+                key={octocat.id}
                 value={octocat}
-                drag={index < octocats.length}
-                dragListener={index < octocats.length}
-                dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
                 className="group relative flex-shrink-0 cursor-grab active:cursor-grabbing"
                 title={octocat.name}
-                whileDrag={{ scale: 1.1, zIndex: 50, cursor: 'grabbing' }}
+                whileDrag={{ scale: 1.1, zIndex: 50 }}
               >
                 <img
                   src={octocat.image}
@@ -128,8 +123,33 @@ export function OctocatTicker({ height = 64, padding, speed = 60 }: OctocatTicke
                 />
               </Reorder.Item>
             ))}
+          </Reorder.Group>
+          
+          <div 
+            className="flex shrink-0 gap-4"
+            style={{
+              animation: `scroll-left ${speed}s linear infinite`
+            }}
+            aria-hidden="true"
+          >
+            {octocats.map((octocat) => (
+              <div
+                key={`duplicate-${octocat.id}`}
+                className="flex-shrink-0 pointer-events-none"
+                title={octocat.name}
+              >
+                <img
+                  src={octocat.image}
+                  alt=""
+                  className="rounded-lg object-cover"
+                  style={{ height, width: height }}
+                  loading="eager"
+                  draggable={false}
+                />
+              </div>
+            ))}
           </div>
-        </Reorder.Group>
+        </div>
       </div>
     </Card>
   )
