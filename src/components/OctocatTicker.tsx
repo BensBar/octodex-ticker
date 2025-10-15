@@ -60,7 +60,6 @@ const FALLBACK_OCTOCATS: Octocat[] = [
   { name: 'Speedycat', image: 'https://octodex.github.com/images/speedycat.jpg' },
   { name: 'Brennatocat', image: 'https://octodex.github.com/images/brennatocat.png' },
   { name: 'Twenty Percent Cooler', image: 'https://octodex.github.com/images/twenty-percent-cooler-octocat.png' },
-  { name: 'Forty Two', image: 'https://octodex.github.com/images/42.png' },
   { name: 'Minion', image: 'https://octodex.github.com/images/minion.png' },
   { name: 'Sticktocat', image: 'https://octodex.github.com/images/sticktocat.png' },
   { name: 'Baracktocat', image: 'https://octodex.github.com/images/baracktocat.jpg' },
@@ -87,9 +86,6 @@ const FALLBACK_OCTOCATS: Octocat[] = [
   { name: 'Adventure Cat', image: 'https://octodex.github.com/images/adventure-cat.png' },
   { name: 'Founding Father', image: 'https://octodex.github.com/images/founding-father.jpg' },
   { name: 'Swagtocat', image: 'https://octodex.github.com/images/swagtocat.png' },
-  { name: 'Draculatocat', image: 'https://octodex.github.com/images/draculatocat.png' },
-  { name: 'Stevetocat', image: 'https://octodex.github.com/images/stevetocat.png' },
-  { name: 'Mona the Rivetertocat', image: 'https://octodex.github.com/images/riveter.png' },
   { name: 'Supportcat', image: 'https://octodex.github.com/images/supportcat.png' },
   { name: 'Octoclark Kent', image: 'https://octodex.github.com/images/octoclark-kentocat.jpg' },
 ]
