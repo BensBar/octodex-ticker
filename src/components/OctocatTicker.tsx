@@ -107,7 +107,7 @@ export function OctocatTicker() {
                 src={octocat.image}
                 alt={octocat.name}
                 className="h-16 w-16 rounded-lg object-cover transition-transform duration-300 hover:scale-110"
-                loading="lazy"
+                loading="eager"
               />
             </div>
           ))}
