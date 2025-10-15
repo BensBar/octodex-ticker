@@ -109,7 +109,7 @@ function App() {
                 value={[padding]}
                 onValueChange={(value) => setPadding(value[0])}
                 min={0}
-                max={80}
+                max={height}
                 step={4}
                 className="w-full"
               />
