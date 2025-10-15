@@ -96,8 +96,8 @@ export function OctocatTicker() {
         <div className="absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-card to-transparent" />
         <div className="absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-card to-transparent" />
         
-        <div className="flex gap-4">
-          <div className="flex animate-[scroll-left_60s_linear_infinite] gap-4 px-4">
+        <div className="flex">
+          <div className="flex shrink-0 animate-[scroll-left_60s_linear_infinite] gap-4 px-4">
             {displayOctocats.map((octocat, index) => (
               <div
                 key={`${octocat.name}-${index}`}
@@ -113,7 +113,7 @@ export function OctocatTicker() {
               </div>
             ))}
           </div>
-          <div className="flex animate-[scroll-left_60s_linear_infinite] gap-4 px-4">
+          <div className="flex shrink-0 animate-[scroll-left_60s_linear_infinite] gap-4 px-4">
             {displayOctocats.map((octocat, index) => (
               <div
                 key={`${octocat.name}-${index}-duplicate`}
