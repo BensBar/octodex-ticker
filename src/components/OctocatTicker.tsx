@@ -10,6 +10,7 @@ interface Octocat {
 interface OctocatTickerProps {
   height?: number
   padding?: number
+  speed?: number
 }
 
 const FALLBACK_OCTOCATS: Octocat[] = [
@@ -56,7 +57,7 @@ const FALLBACK_OCTOCATS: Octocat[] = [
   { name: 'Octonaut', image: 'https://octodex.github.com/images/octonaut.jpg' },
 ]
 
-export function OctocatTicker({ height = 64, padding }: OctocatTickerProps) {
+export function OctocatTicker({ height = 64, padding, speed = 60 }: OctocatTickerProps) {
   const [octocats, setOctocats] = useState<Octocat[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -103,7 +104,12 @@ export function OctocatTicker({ height = 64, padding }: OctocatTickerProps) {
         <div className="absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-card to-transparent pointer-events-none" />
         
         <div className="flex gap-4">
-          <div className="flex shrink-0 animate-[scroll-left_60s_linear_infinite] gap-4 pr-4 pl-4">
+          <div 
+            className="flex shrink-0 gap-4 pr-4 pl-4"
+            style={{
+              animation: `scroll-left ${speed}s linear infinite`
+            }}
+          >
             {displayOctocats.map((octocat, index) => (
               <div
                 key={`${octocat.name}-${index}`}

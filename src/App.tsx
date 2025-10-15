@@ -8,6 +8,7 @@ import {
   ResizablePanel,
   ResizableHandle,
 } from '@/components/ui/resizable'
+import { Sliders } from '@phosphor-icons/react'
 
 type Position = 'top' | 'middle' | 'bottom'
 
@@ -15,12 +16,14 @@ function App() {
   const [position, setPosition] = useState<Position>('top')
   const [height, setHeight] = useState(64)
   const [padding, setPadding] = useState(12)
+  const [speed, setSpeed] = useState(60)
+  const [showControls, setShowControls] = useState(false)
 
   return (
     <div className="relative flex min-h-screen flex-col bg-background">
       {position === 'top' && (
         <div className="w-full">
-          <OctocatTicker height={height} padding={padding} />
+          <OctocatTicker height={height} padding={padding} speed={speed} />
         </div>
       )}
 
@@ -32,7 +35,7 @@ function App() {
               <ResizableHandle withHandle />
               <ResizablePanel defaultSize={80} minSize={30}>
                 <div className="flex h-full items-center justify-center p-4">
-                  <OctocatTicker height={height} padding={padding} />
+                  <OctocatTicker height={height} padding={padding} speed={speed} />
                 </div>
               </ResizablePanel>
               <ResizableHandle withHandle />
@@ -41,25 +44,53 @@ function App() {
           </div>
         )}
 
-        <Card className="w-full max-w-2xl p-8">
-          <div className="flex flex-col gap-6">
-            <div className="text-center">
-              <h1 className="text-3xl font-semibold tracking-tight text-foreground">
-                Octocat Ticker
-              </h1>
-              <p className="mt-2 text-sm text-muted-foreground">
-                An endless scrolling showcase of GitHub's beloved Octocats
-              </p>
+        <div className="text-center">
+          <h1 className="text-3xl font-semibold tracking-tight text-foreground">
+            Octocat Ticker
+          </h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            An endless scrolling showcase of GitHub's beloved Octocats
+          </p>
+        </div>
+      </div>
+
+      {position === 'bottom' && (
+        <div className="w-full">
+          <OctocatTicker height={height} padding={padding} speed={speed} />
+        </div>
+      )}
+
+      <Button
+        variant="outline"
+        size="icon"
+        className="fixed bottom-6 right-6 h-12 w-12 rounded-full shadow-lg"
+        onClick={() => setShowControls(!showControls)}
+      >
+        <Sliders className="h-5 w-5" />
+      </Button>
+
+      {showControls && (
+        <Card className="fixed bottom-24 right-6 w-80 p-6 shadow-xl">
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-sm font-semibold text-foreground">Controls</h2>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowControls(false)}
+                className="h-6 w-6 p-0"
+              >
+                ×
+              </Button>
             </div>
 
-            <div className="flex flex-col gap-3">
-              <label className="text-sm font-medium text-foreground">
-                Position the ticker:
-              </label>
+            <div className="flex flex-col gap-2">
+              <label className="text-xs font-medium text-foreground">Position</label>
               <div className="flex gap-2">
                 <Button
                   variant={position === 'top' ? 'default' : 'outline'}
                   onClick={() => setPosition('top')}
+                  size="sm"
                   className="flex-1"
                 >
                   Top
@@ -67,6 +98,7 @@ function App() {
                 <Button
                   variant={position === 'middle' ? 'default' : 'outline'}
                   onClick={() => setPosition('middle')}
+                  size="sm"
                   className="flex-1"
                 >
                   Middle
@@ -74,6 +106,7 @@ function App() {
                 <Button
                   variant={position === 'bottom' ? 'default' : 'outline'}
                   onClick={() => setPosition('bottom')}
+                  size="sm"
                   className="flex-1"
                 >
                   Bottom
@@ -81,12 +114,10 @@ function App() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-foreground">
-                  Ticker height:
-                </label>
-                <span className="text-sm text-muted-foreground">{height}px</span>
+                <label className="text-xs font-medium text-foreground">Height</label>
+                <span className="text-xs text-muted-foreground">{height}px</span>
               </div>
               <Slider
                 value={[height]}
@@ -94,47 +125,38 @@ function App() {
                 min={32}
                 max={200}
                 step={4}
-                className="w-full"
               />
             </div>
 
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-foreground">
-                  Ticker padding:
-                </label>
-                <span className="text-sm text-muted-foreground">{padding}px</span>
+                <label className="text-xs font-medium text-foreground">Padding</label>
+                <span className="text-xs text-muted-foreground">{padding}px</span>
               </div>
               <Slider
                 value={[padding]}
                 onValueChange={(value) => setPadding(value[0])}
                 min={0}
-                max={height}
+                max={32}
                 step={4}
-                className="w-full"
               />
             </div>
 
-            <div className="rounded-lg bg-muted/50 p-4">
-              <h2 className="text-sm font-medium text-foreground">Features</h2>
-              <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
-                <li>• Smooth infinite scrolling animation</li>
-                <li>• Displays iconic GitHub Octocats</li>
-                <li>• Compact design for flexible placement</li>
-                <li>• Hover to see Octocat names</li>
-                <li>• Adjustable height from small to large</li>
-                <li>• Adjustable padding for compact or spacious look</li>
-                {position === 'middle' && <li>• Drag handles to resize width</li>}
-              </ul>
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-medium text-foreground">Speed</label>
+                <span className="text-xs text-muted-foreground">{speed}s</span>
+              </div>
+              <Slider
+                value={[speed]}
+                onValueChange={(value) => setSpeed(value[0])}
+                min={10}
+                max={120}
+                step={5}
+              />
             </div>
           </div>
         </Card>
-      </div>
-
-      {position === 'bottom' && (
-        <div className="w-full">
-          <OctocatTicker height={height} padding={padding} />
-        </div>
       )}
     </div>
   )
