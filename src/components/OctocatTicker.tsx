@@ -76,7 +76,7 @@ export function OctocatTicker() {
     fetchOctocats()
   }, [])
 
-  const displayOctocats = [...octocats, ...octocats, ...octocats]
+  const displayOctocats = [...octocats, ...octocats]
 
   if (loading) {
     return (
@@ -96,21 +96,39 @@ export function OctocatTicker() {
         <div className="absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-card to-transparent" />
         <div className="absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-card to-transparent" />
         
-        <div className="flex animate-[scroll-left_40s_linear_infinite] gap-4 px-4">
-          {displayOctocats.map((octocat, index) => (
-            <div
-              key={`${octocat.name}-${index}`}
-              className="group relative flex-shrink-0"
-              title={octocat.name}
-            >
-              <img
-                src={octocat.image}
-                alt={octocat.name}
-                className="h-16 w-16 rounded-lg object-cover transition-transform duration-300 hover:scale-110"
-                loading="eager"
-              />
-            </div>
-          ))}
+        <div className="flex gap-4">
+          <div className="flex animate-[scroll-left_60s_linear_infinite] gap-4 px-4">
+            {displayOctocats.map((octocat, index) => (
+              <div
+                key={`${octocat.name}-${index}`}
+                className="group relative flex-shrink-0"
+                title={octocat.name}
+              >
+                <img
+                  src={octocat.image}
+                  alt={octocat.name}
+                  className="h-16 w-16 rounded-lg object-cover transition-transform duration-300 hover:scale-110"
+                  loading="eager"
+                />
+              </div>
+            ))}
+          </div>
+          <div className="flex animate-[scroll-left_60s_linear_infinite] gap-4 px-4">
+            {displayOctocats.map((octocat, index) => (
+              <div
+                key={`${octocat.name}-${index}-duplicate`}
+                className="group relative flex-shrink-0"
+                title={octocat.name}
+              >
+                <img
+                  src={octocat.image}
+                  alt={octocat.name}
+                  className="h-16 w-16 rounded-lg object-cover transition-transform duration-300 hover:scale-110"
+                  loading="eager"
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </Card>
