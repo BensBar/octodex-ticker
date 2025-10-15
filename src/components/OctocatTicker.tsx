@@ -28,7 +28,6 @@ const FALLBACK_OCTOCATS: Octocat[] = [
   { name: 'Baracktocat', image: 'https://octodex.github.com/images/baracktocat.jpg' },
   { name: 'Ironcat', image: 'https://octodex.github.com/images/ironcat.jpg' },
   { name: 'Nyantocat', image: 'https://octodex.github.com/images/nyantocat.gif' },
-  { name: 'Octocat', image: 'https://octodex.github.com/images/octocat.jpg' },
   { name: 'Femalecodertocat', image: 'https://octodex.github.com/images/femalecodertocat.png' },
   { name: 'Heisencat', image: 'https://octodex.github.com/images/heisencat.png' },
   { name: 'Socialite', image: 'https://octodex.github.com/images/socialite.jpg' },
