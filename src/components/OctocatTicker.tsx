@@ -92,31 +92,15 @@ export function OctocatTicker() {
 
   return (
     <Card className="w-full overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm">
-      <div className="relative flex items-center py-3">
-        <div className="absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-card to-transparent" />
-        <div className="absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-card to-transparent" />
+      <div className="relative flex items-center py-3 overflow-hidden">
+        <div className="absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-card to-transparent pointer-events-none" />
+        <div className="absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-card to-transparent pointer-events-none" />
         
-        <div className="flex">
-          <div className="flex shrink-0 animate-[scroll-left_60s_linear_infinite] gap-4 px-4">
+        <div className="flex gap-4">
+          <div className="flex shrink-0 animate-[scroll-left_60s_linear_infinite] gap-4 pr-4 pl-4">
             {displayOctocats.map((octocat, index) => (
               <div
                 key={`${octocat.name}-${index}`}
-                className="group relative flex-shrink-0"
-                title={octocat.name}
-              >
-                <img
-                  src={octocat.image}
-                  alt={octocat.name}
-                  className="h-16 w-16 rounded-lg object-cover transition-transform duration-300 hover:scale-110"
-                  loading="eager"
-                />
-              </div>
-            ))}
-          </div>
-          <div className="flex shrink-0 animate-[scroll-left_60s_linear_infinite] gap-4 px-4">
-            {displayOctocats.map((octocat, index) => (
-              <div
-                key={`${octocat.name}-${index}-duplicate`}
                 className="group relative flex-shrink-0"
                 title={octocat.name}
               >

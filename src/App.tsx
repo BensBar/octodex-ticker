@@ -2,6 +2,11 @@ import { useState } from 'react'
 import { OctocatTicker } from '@/components/OctocatTicker'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
+import {
+  ResizablePanelGroup,
+  ResizablePanel,
+  ResizableHandle,
+} from '@/components/ui/resizable'
 
 type Position = 'top' | 'middle' | 'bottom'
 
@@ -18,8 +23,18 @@ function App() {
 
       <div className="flex flex-1 flex-col items-center justify-center gap-8 p-8">
         {position === 'middle' && (
-          <div className="w-full max-w-4xl">
-            <OctocatTicker />
+          <div className="w-full max-w-6xl">
+            <ResizablePanelGroup direction="horizontal" className="rounded-lg border">
+              <ResizablePanel defaultSize={10} minSize={5} />
+              <ResizableHandle withHandle />
+              <ResizablePanel defaultSize={80} minSize={30}>
+                <div className="flex h-full items-center justify-center p-4">
+                  <OctocatTicker />
+                </div>
+              </ResizablePanel>
+              <ResizableHandle withHandle />
+              <ResizablePanel defaultSize={10} minSize={5} />
+            </ResizablePanelGroup>
           </div>
         )}
 
@@ -70,6 +85,7 @@ function App() {
                 <li>• Displays iconic GitHub Octocats</li>
                 <li>• Compact design for flexible placement</li>
                 <li>• Hover to see Octocat names</li>
+                {position === 'middle' && <li>• Drag handles to resize width</li>}
               </ul>
             </div>
           </div>
