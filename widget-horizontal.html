@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Octocat Ticker Widget</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: rgba(255, 255, 255, 0.95);
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .ticker-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .fade-left, .fade-right {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 60px;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .fade-left {
+            left: 0;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.95), transparent);
+        }
+
+        .fade-right {
+            right: 0;
+            background: linear-gradient(to left, rgba(255, 255, 255, 0.95), transparent);
+        }
+
+        .ticker-track {
+            display: flex;
+            gap: 16px;
+            padding: 0 20px;
+            animation: scroll-left 40s linear infinite;
+            will-change: transform;
+        }
+
+        @keyframes scroll-left {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(-33.333%);
+            }
+        }
+
+        .octocat-item {
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .octocat-item:hover {
+            transform: scale(1.1);
+            z-index: 5;
+        }
+
+        .octocat-item img {
+            width: 64px;
+            height: 64px;
+            border-radius: 8px;
+            object-fit: cover;
+            display: block;
+            background: #f5f5f5;
+        }
+
+        .ticker-track:hover {
+            animation-play-state: paused;
+        }
+    </style>
+</head>
+<body>
+    <div class="ticker-container">
+        <div class="fade-left"></div>
+        <div class="fade-right"></div>
+        <div class="ticker-track" id="ticker"></div>
+    </div>
+
+    <script>
+        const OCTOCATS = [
+            { name: 'Original', image: 'https://octodex.github.com/images/original.png' },
+            { name: 'Stormtroopocat', image: 'https://octodex.github.com/images/stormtroopocat.png' },
+            { name: 'Hubot', image: 'https://octodex.github.com/images/hubot.jpg' },
+            { name: 'Octocat', image: 'https://octodex.github.com/images/octocat-de-los-muertos.jpg' },
+            { name: 'Daftpunktocat', image: 'https://octodex.github.com/images/daftpunktocat-guy.gif' },
+            { name: 'Riddlocat', image: 'https://octodex.github.com/images/riddlocat.png' },
+            { name: 'Megacat', image: 'https://octodex.github.com/images/megacat-2.png' },
+            { name: 'Filmtocat', image: 'https://octodex.github.com/images/filmtocat.png' },
+            { name: 'Privateinvestocat', image: 'https://octodex.github.com/images/privateinvestocat.jpg' },
+            { name: 'Dinotocat', image: 'https://octodex.github.com/images/dinotocat.png' },
+            { name: 'Octobiwan', image: 'https://octodex.github.com/images/octobiwan.jpg' },
+            { name: 'Gracehoppertocat', image: 'https://octodex.github.com/images/gracehoppertocat.jpg' },
+            { name: 'Droidtocat', image: 'https://octodex.github.com/images/droidtocat.png' },
+            { name: 'Spidertocat', image: 'https://octodex.github.com/images/spidertocat.png' },
+            { name: 'Steroidtocat', image: 'https://octodex.github.com/images/steroidtocat.png' },
+            { name: 'Scubatocat', image: 'https://octodex.github.com/images/scubatocat.png' },
+            { name: 'Shoptocat', image: 'https://octodex.github.com/images/shoptocat.png' },
+            { name: 'Manufacturetocat', image: 'https://octodex.github.com/images/manufacturetocat.png' },
+            { name: 'Poptocat', image: 'https://octodex.github.com/images/poptocat_v2.png' },
+            { name: 'Jetpacktocat', image: 'https://octodex.github.com/images/jetpacktocat.png' },
+            { name: 'Mountietocat', image: 'https://octodex.github.com/images/mountietocat.png' },
+            { name: 'Catstello', image: 'https://octodex.github.com/images/catstello.png' },
+            { name: 'Inspectocat', image: 'https://octodex.github.com/images/inspectocat.jpg' },
+            { name: 'Femalecodertocat', image: 'https://octodex.github.com/images/femalecodertocat.png' },
+            { name: 'Waldocat', image: 'https://octodex.github.com/images/waldocat.png' },
+            { name: 'Carlostocat', image: 'https://octodex.github.com/images/carlostocat.gif' },
+            { name: 'Collabocats', image: 'https://octodex.github.com/images/collabocats.jpg' },
+            { name: 'Okal-Eltocat', image: 'https://octodex.github.com/images/okal-eltocat.jpg' },
+            { name: 'Nyantocat', image: 'https://octodex.github.com/images/nyantocat.gif' },
+            { name: 'Codercat', image: 'https://octodex.github.com/images/codercat.jpg' },
+            { name: 'Kimonotocat', image: 'https://octodex.github.com/images/kimonotocat.png' },
+            { name: 'Droctocat', image: 'https://octodex.github.com/images/droctocat.png' },
+            { name: 'Plumber', image: 'https://octodex.github.com/images/plumber.jpg' },
+            { name: 'Vinyltocat', image: 'https://octodex.github.com/images/vinyltocat.png' },
+            { name: 'Electrocat', image: 'https://octodex.github.com/images/electrocat.png' },
+            { name: 'Defunktocat', image: 'https://octodex.github.com/images/defunktocat.png' },
+            { name: 'Labtocat', image: 'https://octodex.github.com/images/labtocat.png' },
+            { name: 'Surftocat', image: 'https://octodex.github.com/images/surftocat.png' },
+            { name: 'Welcometocat', image: 'https://octodex.github.com/images/welcometocat.png' },
+            { name: 'Cherryontop', image: 'https://octodex.github.com/images/cherryontop-o-cat.png' },
+            { name: 'Octonaut', image: 'https://octodex.github.com/images/octonaut.jpg' },
+        ];
+
+        const ticker = document.getElementById('ticker');
+        const displayOctocats = [...OCTOCATS, ...OCTOCATS, ...OCTOCATS];
+
+        displayOctocats.forEach((octocat, index) => {
+            const item = document.createElement('div');
+            item.className = 'octocat-item';
+            item.title = octocat.name;
+            
+            const img = document.createElement('img');
+            img.src = octocat.image;
+            img.alt = octocat.name;
+            img.loading = 'eager';
+            
+            item.appendChild(img);
+            ticker.appendChild(item);
+        });
+    </script>
+</body>
+</html>
