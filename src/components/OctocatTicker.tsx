@@ -1,0 +1,87 @@
+import { useEffect, useState } from 'react'
+import { Card } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
+
+interface Octocat {
+  name: string
+  image: string
+}
+
+const FALLBACK_OCTOCATS: Octocat[] = [
+  { name: 'Original', image: 'https://octodex.github.com/images/original.png' },
+  { name: 'Stormtroopocat', image: 'https://octodex.github.com/images/stormtroopocat.png' },
+  { name: 'Hubot', image: 'https://octodex.github.com/images/hubot.png' },
+  { name: 'Octocat', image: 'https://octodex.github.com/images/octocat-de-los-muertos.jpg' },
+  { name: 'Daftpunktocat', image: 'https://octodex.github.com/images/daftpunktocat-guy.gif' },
+  { name: 'Riddlocat', image: 'https://octodex.github.com/images/riddlocat.png' },
+  { name: 'Megacat', image: 'https://octodex.github.com/images/megacat-2.png' },
+  { name: 'Filmtocat', image: 'https://octodex.github.com/images/filmtocat.png' },
+  { name: 'Privateinvestocat', image: 'https://octodex.github.com/images/privateinvestocat.jpg' },
+  { name: 'Dinotocat', image: 'https://octodex.github.com/images/dinotocat.png' },
+]
+
+export function OctocatTicker() {
+  const [octocats, setOctocats] = useState<Octocat[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchOctocats() {
+      try {
+        const response = await fetch('https://api.github.com/octocat')
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch')
+        }
+
+        setOctocats(FALLBACK_OCTOCATS)
+      } catch (error) {
+        console.warn('Using fallback Octocats:', error)
+        setOctocats(FALLBACK_OCTOCATS)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchOctocats()
+  }, [])
+
+  const displayOctocats = [...octocats, ...octocats, ...octocats]
+
+  if (loading) {
+    return (
+      <Card className="w-full overflow-hidden border-border/50">
+        <div className="flex gap-4 px-4 py-3">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <Skeleton key={i} className="h-16 w-16 flex-shrink-0 rounded-lg" />
+          ))}
+        </div>
+      </Card>
+    )
+  }
+
+  return (
+    <Card className="w-full overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm">
+      <div className="relative flex items-center py-3">
+        <div className="absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-card to-transparent" />
+        <div className="absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-card to-transparent" />
+        
+        <div className="flex animate-[scroll-left_40s_linear_infinite] gap-4 px-4">
+          {displayOctocats.map((octocat, index) => (
+            <div
+              key={`${octocat.name}-${index}`}
+              className="group relative flex-shrink-0"
+              title={octocat.name}
+            >
+              <img
+                src={octocat.image}
+                alt={octocat.name}
+                className="h-16 w-16 rounded-lg object-cover transition-transform duration-300 hover:scale-110"
+                loading="lazy"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </Card>
+  )
+}
